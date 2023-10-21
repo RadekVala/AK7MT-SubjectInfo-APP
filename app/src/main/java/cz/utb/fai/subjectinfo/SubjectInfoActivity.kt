@@ -24,6 +24,9 @@ class SubjectInfoActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this, SubjectInfoViewModelFactory(app.repository))
             .get(SubjectInfoViewModel::class.java)
 
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
+
 
     }
 }
