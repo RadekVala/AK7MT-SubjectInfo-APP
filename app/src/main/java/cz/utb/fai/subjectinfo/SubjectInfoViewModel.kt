@@ -16,18 +16,36 @@ class SubjectInfoViewModel(
     private val _subjectInfoValue = MutableLiveData<SubjectInfo>()
     val subjectInfoValue: LiveData<SubjectInfo> = _subjectInfoValue
 
-    val zkratkaMutable = MutableLiveData<String>()
+    val showHint = MutableLiveData<Boolean>()
+    val showNotFound = MutableLiveData<Boolean>()
+    val zkratkaMutable = MutableLiveData<String?>()
+
+
 
     fun getSubjectInfo(katedra: String, zkratka: String){
         viewModelScope.launch(Dispatchers.IO) {
             val result = repository.getSubjectInfo(katedra, zkratka)
-            _subjectInfoValue.postValue(result)
+            if(result is SubjectInfo) {
+                _subjectInfoValue.postValue(result)
+                showNotFound.postValue(false)
+            } else {
+                showNotFound.postValue(true)
+            }
         }
     }
 
     fun search () {
-        val zkratka = zkratkaMutable.value.toString()
+        if (zkratkaMutable.value != null && !zkratkaMutable.value!!.isEmpty()) {
+            // zkratka was provided by the user
+            getSubjectInfo("AUIUI", zkratkaMutable.value!!)
+        } else {
+            // zkratka was not provided, show hint text view
+            showHint.value = true
+        }
+    }
 
-        getSubjectInfo("AUIUI", zkratka )
+    fun hideHintAndNotFound () {
+        showHint.value = false
+        showNotFound.value = false
     }
 }

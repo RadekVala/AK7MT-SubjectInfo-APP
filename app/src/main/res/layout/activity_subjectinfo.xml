@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
+
         <variable
             name="viewModel"
             type="cz.utb.fai.subjectinfo.SubjectInfoViewModel" />
@@ -60,6 +62,29 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtLabel" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:text="@string/txtSubjectShorcut_hint"
+            android:textColor="#F44336"
+            app:layout_constraintBottom_toTopOf="@+id/editTextText"
+            app:layout_constraintStart_toStartOf="@+id/editTextText"
+            android:visibility="@{viewModel.showHint ? View.VISIBLE: View.GONE}"
+            />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/subjectInfo_not_found"
+            app:layout_constraintEnd_toEndOf="@+id/editTextText"
+            app:layout_constraintTop_toBottomOf="@+id/editTextText"
+            android:visibility="@{viewModel.showNotFound ? View.VISIBLE: View.GONE}"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

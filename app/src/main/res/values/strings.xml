@@ -2,4 +2,6 @@
     <string name="app_name">SubjectInfo</string>
     <string name="txtSubject_hint">Zkratka předmětu</string>
     <string name="btnSave_text">Save</string>
+    <string name="txtSubjectShorcut_hint">Musíte poskytnou zkratku předmětu</string>
+    <string name="subjectInfo_not_found">Předmět s touto zkratkou nebyl nalezen.</string>
 </resources>

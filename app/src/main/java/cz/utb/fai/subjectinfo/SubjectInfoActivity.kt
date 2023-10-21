@@ -25,6 +25,13 @@ class SubjectInfoActivity : AppCompatActivity() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
-        //viewModel.getSubjectInfo("AUIUI","AK7MT")
+        // Observing change of zkratkaMutable property for hiding of Hint text
+        viewModel.zkratkaMutable.observe(this, { zkratkaMutable ->
+            if (zkratkaMutable != null && !zkratkaMutable.isEmpty()) {
+                // if zkratka is not null or empty value
+                viewModel.hideHintAndNotFound() // hide the hint text
+            }
+        })
+
     }
 }
