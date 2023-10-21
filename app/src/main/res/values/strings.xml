@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">SubjectInfo</string>
+    <string name="txtSubject_hint">Zkratka předmětu</string>
+    <string name="btnSave_text">Save</string>
 </resources>
