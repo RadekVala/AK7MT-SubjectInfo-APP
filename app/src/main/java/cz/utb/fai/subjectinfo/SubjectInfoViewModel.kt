@@ -16,8 +16,7 @@ class SubjectInfoViewModel(
     private val _subjectInfoValue = MutableLiveData<SubjectInfo>()
     val subjectInfoValue: LiveData<SubjectInfo> = _subjectInfoValue
 
-    private var _zkratka = MutableLiveData<String>()
-    var zkratka: MutableLiveData<String> = _zkratka
+    val zkratkaMutable = MutableLiveData<String>()
 
     fun getSubjectInfo(katedra: String, zkratka: String){
         viewModelScope.launch(Dispatchers.IO) {
@@ -27,7 +26,7 @@ class SubjectInfoViewModel(
     }
 
     fun search () {
-        val zkratka = _zkratka.value.toString()
+        val zkratka = zkratkaMutable.value.toString()
 
         getSubjectInfo("AUIUI", zkratka )
     }
