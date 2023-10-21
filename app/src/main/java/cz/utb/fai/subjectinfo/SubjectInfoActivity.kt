@@ -18,8 +18,6 @@ class SubjectInfoActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        binding.txtLabel.text = "Hello UTB"
-
         val app = application as MyApplication
         viewModel = ViewModelProvider(this, SubjectInfoViewModelFactory(app.repository))
             .get(SubjectInfoViewModel::class.java)
@@ -27,6 +25,6 @@ class SubjectInfoActivity : AppCompatActivity() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
-        viewModel.getSubjectInfo("AUIUI","AK7MT")
+        //viewModel.getSubjectInfo("AUIUI","AK7MT")
     }
 }
