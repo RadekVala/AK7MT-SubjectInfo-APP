@@ -27,6 +27,6 @@ class SubjectInfoActivity : AppCompatActivity() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
-
+        viewModel.getSubjectInfo("AUIUI","AK7MT")
     }
 }
