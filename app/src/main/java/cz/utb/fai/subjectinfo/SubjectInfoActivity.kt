@@ -2,12 +2,13 @@ package cz.utb.fai.subjectinfo
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.lifecycle.ViewModelProvider
 import cz.utb.fai.subjectinfo.databinding.ActivitySubjectinfoBinding
 
 class SubjectInfoActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySubjectinfoBinding
-
+    private lateinit var viewModel: SubjectInfoViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,6 +20,9 @@ class SubjectInfoActivity : AppCompatActivity() {
 
         binding.txtLabel.text = "Hello UTB"
 
+        val app = application as MyApplication
+        viewModel = ViewModelProvider(this, SubjectInfoViewModelFactory(app.repository))
+            .get(SubjectInfoViewModel::class.java)
 
 
     }
