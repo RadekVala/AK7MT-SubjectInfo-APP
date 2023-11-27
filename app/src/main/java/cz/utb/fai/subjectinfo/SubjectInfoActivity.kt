@@ -2,6 +2,7 @@ package cz.utb.fai.subjectinfo
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import cz.utb.fai.subjectinfo.databinding.ActivitySubjectinfoBinding
 
@@ -18,7 +19,10 @@ class SubjectInfoActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
+        // get application instance to have app.repository for viewModel
         val app = application as MyApplication
+
+        // create viewModel using factory to pass repository in an argument
         viewModel = ViewModelProvider(this, SubjectInfoViewModelFactory(app.repository))
             .get(SubjectInfoViewModel::class.java)
 
@@ -30,6 +34,17 @@ class SubjectInfoActivity : AppCompatActivity() {
             if (zkratkaMutable != null && !zkratkaMutable.isEmpty()) {
                 // if zkratka is not null or empty value
                 viewModel.hideHintAndNotFound() // hide the hint text
+            }
+        })
+
+        // Observing change of progress property for hiding or showing Progressbar
+        viewModel.progress.observe(this, { progress ->
+            if (progress) {
+                // Show loading spinner
+                binding.progressBar.visibility = View.VISIBLE
+            } else {
+                // Hide loading spinner
+                binding.progressBar.visibility = View.GONE
             }
         })
 
