@@ -9,7 +9,8 @@ import cz.utb.fai.subjectinfo.model.SubjectInfo
  */
 @Entity(tableName = "subject_info")
 data class SubjectEntity constructor(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    //@PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @PrimaryKey
     val nazev: String,
     val zkratka: String,
     val kreditu: Int,
