@@ -1,6 +1,7 @@
 package cz.utb.fai.subjectinfo
 
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import cz.utb.fai.subjectinfo.api.StagApiService
 import cz.utb.fai.subjectinfo.database.SubjectEntity
 import cz.utb.fai.subjectinfo.database.SubjectInfoDatabase
@@ -12,24 +13,31 @@ import kotlinx.coroutines.withContext
 
 class Repository (private val apiService: StagApiService, private val database: SubjectInfoDatabase) {
 
-
     // Fetch subject from Room database
+    // Return Flow of SubjectInfo (has to be casted from DB SubjectEntity to domain model SubjectInfo)
     suspend fun getSubjectInfo(katedra: String, zkratka: String): Flow<SubjectInfo> {
+
+        // gets data from REST API and stores them to DB
         refreshSubjects(katedra, zkratka)
+
+        // gets FLOW of SubjectInfo from database
         return database.subjectInfoDao.getSubjectByZkratka(zkratka)
-            .map { it.asDomainModel() }
+            .map {
+                it.asDomainModel()
+            }
     }
 
     // Refresh data from API and save to Room database
     suspend fun refreshSubjects(katedra: String, zkratka: String) {
         try {
+            // call REST API to get SubjectInfo
             val apiResponse = apiService.getSubjectInfo(katedra, zkratka)
+            // parse SubjectInfo from response body
             val subjectInfo: SubjectInfo? = apiResponse.body()
 
             if(subjectInfo != null) {
                 // convert domain model from REST API to database entity
                 val subjectEntity = SubjectEntity(
-                    0,
                     subjectInfo.nazev,
                     subjectInfo.zkratka,
                     subjectInfo.kreditu,
@@ -40,6 +48,9 @@ class Repository (private val apiService: StagApiService, private val database: 
                 withContext(Dispatchers.IO) {
                     database.subjectInfoDao.insert(subjectEntity)
                 }
+            } else {
+                // no data found on REST API
+                Log.v("MYAPP", "notfound")
             }
 
         } catch (e: Exception) {
